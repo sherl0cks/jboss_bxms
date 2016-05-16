@@ -4,6 +4,8 @@
   lineinfile:
     dest: "{{ eap_runtime_conf_file }}"
     line: JAVA_OPTS="$JAVA_OPTS  -Djava.security.egd=file:/dev/./urandom"
+  tags:
+    - jboss_bxms
 
 - name: Create Local Maven Directory
   sudo: true
@@ -13,8 +15,12 @@
     group: "{{ jboss_bxms_service_group }}"
     state: directory
     mode: "755"
+  tags:
+    - jboss_bxms
 
 - name: Set Local Maven Directory
   lineinfile:
     dest: "{{ eap_runtime_conf_file }}"
     line: JAVA_OPTS="$JAVA_OPTS -Dorg.guvnor.m2repo.dir=/opt/jboss-as/.m2"
+  tags:
+    - jboss_bxms

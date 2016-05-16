@@ -11,4 +11,6 @@
   with_items:
     - application-users.properties
     - application-roles.properties
+  tags:
+    - jboss_bxms
   when: jboss_bxms_create_default_eap_user == true
