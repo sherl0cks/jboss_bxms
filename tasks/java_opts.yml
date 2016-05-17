@@ -3,7 +3,7 @@
 - name: Change Default Random Number Generator
   lineinfile:
     dest: "{{ eap_runtime_conf_file }}"
-    line: JAVA_OPTS="$JAVA_OPTS  -Djava.security.egd=file:/dev/./urandom"
+    line: JAVA_OPTS="$JAVA_OPTS -Djava.security.egd=file:/dev/./urandom"
   tags:
     - jboss_bxms
 
@@ -18,9 +18,21 @@
   tags:
     - jboss_bxms
 
-- name: Set Local Maven Directory
+- name: Copy Maven settings.xml
+  copy:
+    src: settings.xml
+    dest: /opt/jboss-as/.m2/settings.xml
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_user }}"
+  tags:
+    - jboss_bxms
+
+- name: Set JAVA_OPTS in standalone.conf
   lineinfile:
     dest: "{{ eap_runtime_conf_file }}"
-    line: JAVA_OPTS="$JAVA_OPTS -Dorg.guvnor.m2repo.dir=/opt/jboss-as/.m2"
+    line: JAVA_OPTS="$JAVA_OPTS -D{{ item.0 }}={{ item.1 }}"
+    regexp: "(.*)({{ item.0 }})(.*)"
+  with_items:
+  - "{{ jboss_bxms_java_opts }}"
   tags:
     - jboss_bxms

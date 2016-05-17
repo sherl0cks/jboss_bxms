@@ -10,16 +10,33 @@ jboss_bxms_eap_config_directory: /opt/jboss-as/jboss-eap-6.4/standalone/configur
 
 eap_runtime_conf_file: /opt/jboss-as/jboss-eap-6.4/bin/standalone.conf
 
+# This block isn't being used yet
 jboss_bxms_expose_git_daemon: true
 jboss_bxms_expose_ssh_daemon: true
+jboss_bxms_set_default_maven_repo: true
+jboss_bxms_create_default_settings.xml: true
+
+jboss_bxms_create_default_eap_user: true
 
 jboss_bxms_deploy_kie_server: true
 jboss_bxms_deploy_dashbuilder: true
 jboss_bxms_deploy_business_central: true
 
-jboss_bxms_create_default_eap_user: true
-
 jboss_bxms_service_user: jboss-as
 jboss_bxms_service_group: jboss-as
+
+jboss_bxms_java_opts:
+  - [org.uberfire.nio.git.ssh.host, 0.0.0.0]
+  - [org.uberfire.nio.git.daemon.host, 0.0.0.0]
+  - [org.guvnor.m2repo.dir, /opt/jboss-as/.m2/repository]
+  - [kie.maven.settings.custom, /opt/jboss-as/.m2/settings.xml]
+  - [org.kie.server.location, "http://209.132.178.20:8080/kie-server/services/rest/server"]
+  - [org.kie.server.id, client-onboarding]
+  - [org.kie.server.user, jboss]
+  - [org.kie.server.pwd, bpmsuite1!]
+  - [org.kie.server.controller, "http://209.132.178.218:8080/business-central/rest/controller"]
+  - [org.kie.server.controller.user, jboss]
+  - [org.kie.server.controller.pwd, bpmsuite1!]
+
 # ussually this is set at the playbook level
 #transfer_method: # csp-to-host | copy-from-controller
